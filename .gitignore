@@ -1,0 +1,7 @@
+mediaserver
+/bin/*
+/pkg/*
+/src/*
+!/src/mediaserver
+!/src/test
+
