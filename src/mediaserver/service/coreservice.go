@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"path"
 
-	"mediaserver/common"
+	"mediaserver/common/utils"
 )
 
 var (
@@ -38,7 +38,7 @@ func listFile(basepath string, suffixs []string) (result []string) {
 		if file.IsDir() {
 			listFile(filepath, suffixs)
 		} else {
-			if suffixs == nil || common.StrInSliceIgnoreCase(path.Ext(filepath), suffixs) {
+			if suffixs == nil || utils.StrInSliceIgnoreCase(path.Ext(filepath), suffixs) {
 
 				result = append(result, filepath)
 			}
