@@ -13,6 +13,7 @@ func ExecCommand(input string) (output string, errput string, err error) {
 	return ExecCommandinDir("", input)
 }
 
+//execute command in a certain directory
 func ExecCommandinDir(workDir string, input string) (output string, errput string, err error) {
 	var retoutput string
 	var reterrput string
