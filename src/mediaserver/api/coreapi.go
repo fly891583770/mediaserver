@@ -2,12 +2,12 @@ package api
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 
 	"mediaserver/entity"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
 )
 
@@ -31,7 +31,7 @@ func (r Resource) Register(router *mux.Router) {
 
 func (r Resource) ListImgHandler(writer http.ResponseWriter, request *http.Request) {
 
-	log.Println("hello")
+	logrus.Infof("hello")
 
 	//parse queries as a map into request.Form
 	request.ParseForm()
