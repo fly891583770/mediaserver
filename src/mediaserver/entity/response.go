@@ -6,7 +6,3 @@ type ImagesResp struct {
 	Total  int     `json:"total"`
 	Images []Image `json:"images"`
 }
-
-type Image struct {
-	Path string `json:"path"`
-}

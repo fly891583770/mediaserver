@@ -60,6 +60,7 @@ func HandleInsert(collName string, document interface{}) error {
 		return err
 	}
 
+	logrus.Debugf("HandleInsert document [v%] into collection [s%] success.", document, collName)
 	return nil
 
 }
@@ -88,6 +89,7 @@ func HandleQueryOne(document interface{}, queryStruct QueryStruct) error {
 	query := composeQuery(session, queryStruct, true)
 
 	//get one document
+	logrus.Debugf("HandleQueryOne success, document: %v, queryStruct: %v", document, queryStruct)
 	return query.One(document)
 }
 
@@ -121,6 +123,7 @@ func HandleQueryAll(documents interface{}, queryStruct QueryStruct) (int, error)
 		return 0, err
 	}
 
+	logrus.Debugf("HandleQueryAll success, document: %v, queryStruct: %v", documents, queryStruct)
 	return query.Count()
 }
 
@@ -159,6 +162,8 @@ func HandleUpdateOne(document interface{}, queryStruct QueryStruct) (bool, error
 
 		created = (info.Updated == 0)
 	}
+
+	logrus.Debugf("HandleUpdateOne success, document: %v, queryStruct: %v", document, queryStruct)
 	return created, nil
 }
 
@@ -190,6 +195,7 @@ func HandleDelete(collName string, selector bson.M, one bool) error {
 	// get mongo collection
 	coll := getCollection(collName, session)
 
+	logrus.Debugf("HandleDelete success, collName: %s, selector: %v, one: %b", collName, selector, one)
 	if one {
 		return coll.Remove(selector)
 	} else {
@@ -225,6 +231,7 @@ func HandleUpdateAllBySelector(collName string, selector bson.M, document interf
 	// update
 	change := bson.M{"$set": document}
 	_, err = coll.UpdateAll(selector, change)
+	logrus.Debugf("HandleUpdateAllBySelector success, collName: %s, selector: %v, document: %v", document, selector, document)
 	return err
 }
 
@@ -253,6 +260,8 @@ func HandleUpdateBySelector(collName string, selector bson.M, document interface
 
 	// update
 	change := bson.M{"$set": document}
+
+	logrus.Debugf("HandleUpdateBySelector success, collName: %s, selector: %v, document: %v", document, selector, document)
 	return coll.Update(selector, change)
 }
 
@@ -279,6 +288,9 @@ func composeQuery(session *mgo.Session, queryStruct QueryStruct, one bool) *mgo.
 	query.Limit(queryStruct.Limit)
 
 	// sort from comma separate list in querystruct
+	if len(queryStruct.Sort) == 0 {
+		query.Sort(paramId)
+	}
 	query.Sort(strings.Split(queryStruct.Sort, ",")...)
 
 	return query
@@ -288,6 +300,14 @@ func composeQuery(session *mgo.Session, queryStruct QueryStruct, one bool) *mgo.
 func getCollection(collName string, session *mgo.Session) *mgo.Collection {
 
 	return session.DB(operator.customDB).C(collName)
+}
+
+//get collection, and create an unique index
+func getCollectionWithIndex(collName string, session *mgo.Session, key []string) *mgo.Collection {
+
+	collection := session.DB(operator.customDB).C(collName)
+	collection.EnsureIndex(mgo.Index{Key: key, Unique: true})
+	return collection
 }
 
 // validate if operator has been injected.
