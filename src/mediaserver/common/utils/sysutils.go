@@ -2,6 +2,7 @@ package utils
 
 import (
 	"io/ioutil"
+	"os"
 	"os/exec"
 	"path"
 	"strings"
@@ -47,6 +48,59 @@ func listFile(basepath string, suffixs []string) (result []string) {
 	}
 
 	return result
+}
+
+//list files that last modified time > modetime in UNIXTIME
+func listFileFromTime(basepath string, suffixs []string, modtime int64) (result []string) {
+
+	files, _ := ioutil.ReadDir(basepath)
+
+	for _, file := range files {
+
+		//generate full path
+		filepath := basepath + "/" + file.Name()
+
+		if file.IsDir() {
+			listFile(filepath, suffixs)
+		} else {
+			if suffixs == nil || StrInSliceIgnoreCase(path.Ext(filepath), suffixs) {
+
+				info, _ := os.Stat(filepath)
+
+				if info.Mode() < modtime {
+					result = append(result, filepath)
+				}
+			}
+		}
+	}
+
+	return result
+}
+
+// similar as listFile, but return a silce of os.FileInfo
+func listFileInfo(basepath string, suffixs []string) (result []os.FileInfo) {
+
+	files, _ := ioutil.ReadDir(basepath)
+
+	for _, file := range files {
+
+		//generate full path
+		filepath := basepath + "/" + file.Name()
+
+		if file.IsDir() {
+			listFile(filepath, suffixs)
+		} else {
+			if suffixs == nil || StrInSliceIgnoreCase(path.Ext(filepath), suffixs) {
+
+				info, _ := os.Stat(filepath)
+
+				result = append(result, info)
+			}
+		}
+	}
+
+	return result
+
 }
 
 //execute command

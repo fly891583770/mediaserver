@@ -30,7 +30,7 @@ func (op *Operator) ParamID() string {
 	return paramId
 }
 
-//handle insert to mongoDB
+//handle insert to mongoDB, one or more
 func HandleInsert(collName string, document interface{}) error {
 
 	//validate global varible 'operator'
