@@ -18,15 +18,25 @@ type TestStruct struct {
 func Init() {
 
 	sessionMng := NewSessionManagerCustom("test", "../../mongo_config.toml")
-	InjectOperator(sessionMng, "")
+	InjectSession(sessionMng, "")
 }
 
 func TestHandleInsert(t *testing.T) {
 
 	Init()
-	document := &entity.Image{ObjectId: bson.NewObjectId(), Name: "hello2.jpg", Path: "/path/to/hello2.jpg"}
+	document1 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "qqq.jpg", Path: "/path/to/qqq.jpg"}
+	document2 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "www.jpg", Path: "/path/to/www.jpg"}
+	document3 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "eee.jpg", Path: "/path/to/eee.jpg"}
+	document4 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "rrr.jpg", Path: "/path/to/rrr.jpg"}
+
+	var docs []interface{}
+	docs = append(docs, document1, document2, document3, document4)
 	//document := &TestStruct{ObjectId: bson.NewObjectId(), Name: "hello3.jpg", Path: "/path/to/hello3.jpg", Testkey: "ttttest"}
-	HandleInsert("testcoll", document)
+	err := HandleInsert("testcoll", docs)
+	if err != nil {
+		t.FailNow()
+	}
+
 }
 func TestHandleQueryOne(t *testing.T) {
 

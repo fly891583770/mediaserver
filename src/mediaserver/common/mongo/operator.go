@@ -31,7 +31,7 @@ func (op *Operator) ParamID() string {
 }
 
 //handle insert to mongoDB, one or more
-func HandleInsert(collName string, document interface{}) error {
+func HandleInsert(collName string, document ...interface{}) error {
 
 	//validate global varible 'operator'
 	if !operatorValidate() {
@@ -55,7 +55,7 @@ func HandleInsert(collName string, document interface{}) error {
 	coll := getCollection(collName, session)
 
 	//insert document to collection
-	if err = coll.Insert(document); err != nil {
+	if err = coll.Insert(document...); err != nil {
 		logrus.Errorf("insert document to collection error, err: %v", err)
 		return err
 	}
@@ -320,7 +320,7 @@ func operatorValidate() bool {
 	return true
 }
 
-func InjectOperator(sessionMng *SessionManager, customDB string) {
+func InjectSession(sessionMng *SessionManager, customDB string) {
 
 	operator = &Operator{sessionManager: sessionMng, customDB: customDB}
 }

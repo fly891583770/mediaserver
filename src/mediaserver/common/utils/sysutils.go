@@ -51,7 +51,7 @@ func listFile(basepath string, suffixs []string) (result []string) {
 }
 
 //list files that last modified time > modetime in UNIXTIME
-func listFileFromTime(basepath string, suffixs []string, modtime int64) (result []string) {
+func ListFileFromTime(basepath string, suffixs []string, modtime int64) (result []string) {
 
 	files, _ := ioutil.ReadDir(basepath)
 
@@ -67,7 +67,7 @@ func listFileFromTime(basepath string, suffixs []string, modtime int64) (result 
 
 				info, _ := os.Stat(filepath)
 
-				if info.Mode() < modtime {
+				if info.ModTime().Unix() > modtime {
 					result = append(result, filepath)
 				}
 			}
