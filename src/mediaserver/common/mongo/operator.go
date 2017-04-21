@@ -26,7 +26,7 @@ type QueryStruct struct {
 	Sort           string
 }
 
-func (op *Operator) ParamID() string {
+func ParamID() string {
 	return paramId
 }
 

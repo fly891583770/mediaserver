@@ -1,24 +1,25 @@
 package main
 
 import (
-	//"log"
-	//"net/http"
-	"fmt"
+	"net/http"
 
-	//"mediaserver/api"
-	//"mediaserver/service"
+	"mediaserver/api"
+	"mediaserver/common/mongo"
 
-	//"github.com/gorilla/mux"
+	"github.com/Sirupsen/logrus"
+	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	fmt.Println("hello")
-	//fmt.Println(service.LsImages("/home/mao/test"))
+	logrus.Infof("starting server...")
 
-	//r := api.Resource{}
-	//router := mux.NewRouter()
-	//r.Register(router)
+	sessionMng := mongo.NewSessionManagerCustom("test", "mongo_config.toml")
+	mongo.InjectSession(sessionMng, "")
 
-	//log.Fatal(http.ListenAndServe(":18080", router))
+	r := api.Resource{}
+	router := mux.NewRouter()
+	r.Register(router)
+
+	logrus.Fatal(http.ListenAndServe(":18080", router))
 }

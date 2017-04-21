@@ -44,7 +44,7 @@ func TestHandleQueryOne(t *testing.T) {
 	Init()
 	document := &entity.Image{}
 	var selector = bson.M{}
-	selector[operator.ParamID()] = bson.ObjectIdHex("58f421c0e1382328c2bc7856")
+	selector[ParamID()] = bson.ObjectIdHex("58f421c0e1382328c2bc7856")
 	err := HandleQueryOne(&document, QueryStruct{"testcoll", selector, 0, 0, ""})
 	t.Logf("document: %v", document)
 	if err != nil {
@@ -71,7 +71,7 @@ func TestHandleUpdateOne(t *testing.T) {
 	Init()
 	document := &entity.Image{ObjectId: bson.ObjectIdHex("58f421c0e1382328c2bc7856"), Name: "helloupdate.jpg", Path: "/path/to/helloupdate.jpg"}
 	var selector = bson.M{}
-	selector[operator.ParamID()] = bson.ObjectIdHex("58f421c0e1382328c2bc7856")
+	selector[ParamID()] = bson.ObjectIdHex("58f421c0e1382328c2bc7856")
 	created, err := HandleUpdateOne(&document, QueryStruct{"testcoll", selector, 0, 0, ""})
 	t.Logf("create: %v", created)
 	if err != nil {

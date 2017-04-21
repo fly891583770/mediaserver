@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"mediaserver/entity"
+	"mediaserver/service"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
@@ -39,12 +40,20 @@ func (r Resource) ListImgHandler(writer http.ResponseWriter, request *http.Reque
 	start, _ := strconv.Atoi(request.Form.Get("start"))
 	count, _ := strconv.Atoi(request.Form.Get("count"))
 
-	resp := entity.ImagesResp{Start: start, Count: count, Total: 100, Images: nil}
+	images, err := service.ListImages(start, count)
+	if err != nil {
+		logrus.Errorf("ListImages error, err: %v", err)
+		writer.Write([]byte("internal err."))
+		return
+	}
+
+	resp := entity.ImagesResp{Start: start, Count: count, Total: 100, Images: images}
 
 	respbytes, err := json.Marshal(resp)
 	if err != nil {
-
+		logrus.Errorf("marshal response error, err: %v", err)
 		writer.Write([]byte("internal err."))
+		return
 	}
 
 	writer.Write(respbytes)
