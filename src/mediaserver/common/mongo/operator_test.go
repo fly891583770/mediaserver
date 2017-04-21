@@ -24,10 +24,10 @@ func Init() {
 func TestHandleInsert(t *testing.T) {
 
 	Init()
-	document1 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "qqq.jpg", Path: "/path/to/qqq.jpg"}
-	document2 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "www.jpg", Path: "/path/to/www.jpg"}
-	document3 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "eee.jpg", Path: "/path/to/eee.jpg"}
-	document4 := &entity.Image{ObjectId: bson.NewObjectId(), Name: "rrr.jpg", Path: "/path/to/rrr.jpg"}
+	document1 := &entity.Resource{ObjectId: bson.NewObjectId(), Name: "qqq.jpg", Path: "/path/to/qqq.jpg"}
+	document2 := &entity.Resource{ObjectId: bson.NewObjectId(), Name: "www.jpg", Path: "/path/to/www.jpg"}
+	document3 := &entity.Resource{ObjectId: bson.NewObjectId(), Name: "eee.jpg", Path: "/path/to/eee.jpg"}
+	document4 := &entity.Resource{ObjectId: bson.NewObjectId(), Name: "rrr.jpg", Path: "/path/to/rrr.jpg"}
 
 	var docs []interface{}
 	docs = append(docs, document1, document2, document3, document4)
@@ -42,7 +42,7 @@ func TestHandleInsert(t *testing.T) {
 func TestHandleQueryOne(t *testing.T) {
 
 	Init()
-	document := &entity.Image{}
+	document := &entity.Resource{}
 	var selector = bson.M{}
 	selector[ParamID()] = bson.ObjectIdHex("58f421c0e1382328c2bc7856")
 	err := HandleQueryOne(&document, QueryStruct{"testcoll", selector, 0, 0, ""})
@@ -56,7 +56,7 @@ func TestHandleQueryOne(t *testing.T) {
 func TestHandleQueryAll(t *testing.T) {
 
 	Init()
-	documents := []entity.Image{}
+	documents := []entity.Resource{}
 	var selector = bson.M{}
 	selector["name"] = "hello2.jpg"
 	total, err := HandleQueryAll(&documents, QueryStruct{"testcoll", selector, 0, 0, "_id"})
@@ -69,7 +69,7 @@ func TestHandleQueryAll(t *testing.T) {
 
 func TestHandleUpdateOne(t *testing.T) {
 	Init()
-	document := &entity.Image{ObjectId: bson.ObjectIdHex("58f421c0e1382328c2bc7856"), Name: "helloupdate.jpg", Path: "/path/to/helloupdate.jpg"}
+	document := &entity.Resource{ObjectId: bson.ObjectIdHex("58f421c0e1382328c2bc7856"), Name: "helloupdate.jpg", Path: "/path/to/helloupdate.jpg"}
 	var selector = bson.M{}
 	selector[ParamID()] = bson.ObjectIdHex("58f421c0e1382328c2bc7856")
 	created, err := HandleUpdateOne(&document, QueryStruct{"testcoll", selector, 0, 0, ""})

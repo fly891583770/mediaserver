@@ -4,7 +4,8 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type Image struct {
+// Resouce file, image or video
+type Resource struct {
 	ObjectId bson.ObjectId `bson:"_id" json:"_id"`
 	Name     string        `bson:"name" json:"name"`
 	Path     string        `bson:"path" json:"path"`

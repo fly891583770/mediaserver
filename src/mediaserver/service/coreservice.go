@@ -14,9 +14,9 @@ const (
 )
 
 // mongoDB page, db.test.find(xxx).sort({"num": 1}).skip(10).limit(10)
-func ListImages(start, count int) ([]entity.Image, error) {
+func ListImages(start, count int) ([]entity.Resource, error) {
 
-	documents := []entity.Image{}
+	documents := []entity.Resource{}
 	var selector = bson.M{}
 
 	_, err := mongo.HandleQueryAll(&documents, mongo.QueryStruct{IMAGE_COLLECTION_NAME, selector, start, count, mongo.ParamID()})
