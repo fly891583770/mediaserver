@@ -140,6 +140,7 @@ func generateURI(config *entity.MgoConfig) string {
 		}
 		uriBuffer.WriteString(config.Addrs[len(config.Addrs)-1])
 	}
+	logrus.Debugf("Addrs: %v, length: %d", config.Addrs, len(config.Addrs))
 
 	//add database
 	if utils.ValidateStr(config.Database) {

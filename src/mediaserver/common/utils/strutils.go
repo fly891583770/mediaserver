@@ -24,3 +24,12 @@ func ValidateStr(str string) bool {
 	}
 	return true
 }
+
+// convert a path string like '/home/user/dir' to string like 'home_user_dir' as mongoDB name
+func Path2dbName(spath string) string {
+
+	spath = strings.TrimPrefix(spath, "/")
+
+	return strings.Replace(spath, "/", "_", -1)
+
+}

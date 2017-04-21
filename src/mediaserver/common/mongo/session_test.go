@@ -5,7 +5,7 @@ import (
 )
 
 func TestGenerateURI(t *testing.T) {
-	config, _ := NewSessionManagerCustom("dev", "../../mongo_config.toml").getConfig("dev")
+	config, _ := NewSessionManagerCustom("dev", "../../mongo_config.toml").getConfig("test")
 
 	uri := generateURI(config)
 

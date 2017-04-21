@@ -8,7 +8,7 @@ password="password"
 timeout=5
 
 [test]
-addrs=[""]
+addrs=[]
 database="media_test"
 username=""
 password=""

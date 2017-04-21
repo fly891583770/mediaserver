@@ -32,8 +32,9 @@ func TestHandleInsert(t *testing.T) {
 	var docs []interface{}
 	docs = append(docs, document1, document2, document3, document4)
 	//document := &TestStruct{ObjectId: bson.NewObjectId(), Name: "hello3.jpg", Path: "/path/to/hello3.jpg", Testkey: "ttttest"}
-	err := HandleInsert("testcoll", docs)
+	err := HandleInsert("testcoll", docs...)
 	if err != nil {
+		t.Errorf("err: %v", err)
 		t.FailNow()
 	}
 
