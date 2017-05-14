@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>media server</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<h1>hello world!</h1>
+		<div class="container" id="img_board">
+			
+		</div>
+	</body>
+</html>
+
+<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var images = new Array("1.jpg",'2.jpg')
+		genImg(images, 'img_board')
+	});
+
+	function ajaxRequest(url, method, data) {
+		$.ajax({
+			url: url,
+	  		type: method,
+	  		data: data,
+	  		dataType: "json"
+		});
+	}
+
+	// <img src="img1.jpg" alt="img1" class="image">
+	function genImg(images, containerId) {
+		for (i in images) {
+			imgHTML = "<img src=\"" + images[i] + "\" alt=\"" + images[i] + "\" class=\"image\">"
+			$('#'+containerId).prepend(imgHTML)
+		}
+	}
+</script>
