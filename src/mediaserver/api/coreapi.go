@@ -25,7 +25,7 @@ type Resource struct {
 func (r Resource) Register(router *mux.Router) {
 
 	//router = router.Path("/mserver").Subrouter()
-
+	// example: ip:port/images?start=0&count=10
 	router.HandleFunc("/images", r.ListImgHandler).Methods(HTTP_METHOD_GET).Queries("start", "{start:[0-9]+}", "count", "{count:[0-9]+}")
 
 }
